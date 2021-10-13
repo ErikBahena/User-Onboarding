@@ -38,37 +38,77 @@ const StyledFormContainer = styled.div`
 
 /* Invalid attr on the input and no attr on the FormFeedBack will display the non valid styling and text */
 
-const FormComponent = (props) => {
+const FormComponent = ({ values, change }) => {
+  const onChange = (e) => {
+    const { name, value, checked, type} = e.target;
+    const valueToUse = type === "checkbox" ? checked : value;
+    change(name, valueToUse);
+  };
+
   return (
     <StyledFormContainer>
       <Form>
         <FormGroup>
-          <Label for="name">Name</Label>
-          <Input type="text" id="name" name="name" />
+          <Label for="first_name">First Name</Label>
+          <Input
+            onChange={onChange}
+            type="text"
+            id="first_name"
+            name="first_name"
+            value={values.first_name}
+          />
+          <FormFeedback valid>That name does not work</FormFeedback>
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="last_name">Last Name</Label>
+          <Input
+            onChange={onChange}
+            type="text"
+            id="last_name"
+            name="last_name"
+            value={values.last_name}
+          />
           <FormFeedback valid>That name does not work</FormFeedback>
         </FormGroup>
 
         <FormGroup>
           <Label for="email">Email</Label>
-          <Input type="email" id="email" name="email" />
+          <Input
+            onChange={onChange}
+            type="email"
+            id="email"
+            name="email"
+            value={values.email}
+          />
           <FormFeedback valid>Great, that works!</FormFeedback>
         </FormGroup>
 
         <FormGroup>
-          <Label for="passwork">Password</Label>
-          <Input type="password" id="passwork" name="password" />
+          <Label for="password">Password</Label>
+          <Input
+            onChange={onChange}
+            type="password"
+            id="password"
+            name="password"
+            value={values.password}
+          />
           <FormFeedback valid>The passowrd must blah blah</FormFeedback>
         </FormGroup>
 
         <FormGroup check>
           <Label for="agreeToTOS"></Label>
-          <Input type="checkbox" name="agreeToTOS" id="agreeToTOS" /> I have
-          read and agree to the terms and conditions
+          <Input
+            onChange={onChange}
+            type="checkbox"
+            name="agreeToTOS"
+            id="agreeToTOS"
+            checked={values.agreeToTOS}
+          />
+          I have read and agree to the terms and conditions
         </FormGroup>
 
-        <FormGroup>
-          <Button>Join the Team</Button>
-        </FormGroup>
+        <Button>Join the Team</Button>
       </Form>
     </StyledFormContainer>
   );

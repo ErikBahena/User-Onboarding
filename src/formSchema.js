@@ -4,12 +4,12 @@ const formSchema = yup.object().shape({
   first_name: yup
     .string()
     .trim()
-    .required("A username must be provided")
+    .required("A name must be provided")
     .min(3, "Must be at least 3 characters long"),
   last_name: yup
     .string()
     .trim()
-    .required("A username must be provided")
+    .required("A name must be provided")
     .min(3, "Must be at least 3 characters long"),
   email: yup
     .string()
@@ -19,6 +19,6 @@ const formSchema = yup.object().shape({
     .string()
     .required("No passord provided")
     .min(5, "Passwords must be at least 5 characters"),
-  agreeToTOS: yup.boolean().required("You must agree to use our services"),
+  agreeToTOS: yup.boolean().oneOf([true], "You Must Agree to the Terms and Services to Continue"),
 });
 export default formSchema;

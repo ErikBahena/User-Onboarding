@@ -6,7 +6,6 @@ import {
   Label,
   Input,
   FormFeedback,
-  FormText,
   Button,
 } from "reactstrap";
 import styled from "styled-components";
@@ -20,12 +19,19 @@ const StyledFormContainer = styled.div`
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   border-radius: 0.4rem;
 
-  Input {
-    margin-bottom: 2%;
+  .invalid-feedback {
+    margin-bottom: 1%;
   }
 
+  #password {
+    margin-bottom: 2%;
+  }
   Button {
     margin-top: 2%;
+  }
+
+  .form-group{
+    margin-bottom: 1%;
   }
 
   /* Tablet or Smaller (1000px and down) */
@@ -38,9 +44,9 @@ const StyledFormContainer = styled.div`
 
 /* Invalid attr on the input and no attr on the FormFeedBack will display the non valid styling and text */
 
-const FormComponent = ({ values, change }) => {
+const FormComponent = ({ values, change, errors, submit, disabled }) => {
   const onChange = (e) => {
-    const { name, value, checked, type} = e.target;
+    const { name, value, checked, type } = e.target;
     const valueToUse = type === "checkbox" ? checked : value;
     change(name, valueToUse);
   };
@@ -56,8 +62,12 @@ const FormComponent = ({ values, change }) => {
             id="first_name"
             name="first_name"
             value={values.first_name}
+            // if an input is valid then error.first_name will equal an empty string ""
+            // the boolean value of a empty string is false, a string containing characters true.
+            // im getting the boolean value of a string "" = false, "dsfasdf" = true;
+            invalid={!!errors.first_name}
           />
-          <FormFeedback valid>That name does not work</FormFeedback>
+          <FormFeedback>{errors.first_name}</FormFeedback>
         </FormGroup>
 
         <FormGroup>
@@ -68,8 +78,9 @@ const FormComponent = ({ values, change }) => {
             id="last_name"
             name="last_name"
             value={values.last_name}
+            invalid={!!errors.last_name}
           />
-          <FormFeedback valid>That name does not work</FormFeedback>
+          <FormFeedback>{errors.last_name}</FormFeedback>
         </FormGroup>
 
         <FormGroup>
@@ -80,8 +91,9 @@ const FormComponent = ({ values, change }) => {
             id="email"
             name="email"
             value={values.email}
+            invalid={!!errors.email}
           />
-          <FormFeedback valid>Great, that works!</FormFeedback>
+          <FormFeedback>{errors.email}</FormFeedback>
         </FormGroup>
 
         <FormGroup>
@@ -92,8 +104,9 @@ const FormComponent = ({ values, change }) => {
             id="password"
             name="password"
             value={values.password}
+            invalid={!!errors.password}
           />
-          <FormFeedback valid>The passowrd must blah blah</FormFeedback>
+          <FormFeedback>{errors.password}</FormFeedback>
         </FormGroup>
 
         <FormGroup check>
@@ -104,11 +117,17 @@ const FormComponent = ({ values, change }) => {
             name="agreeToTOS"
             id="agreeToTOS"
             checked={values.agreeToTOS}
+            invalid={!!errors.agreeToTOS}
+            className="password-input"
           />
           I have read and agree to the terms and conditions
+          <FormFeedback>{errors.agreeToTOS}</FormFeedback>
         </FormGroup>
 
-        <Button>Join the Team</Button>
+        <Button disabled={disabled} onClick={(e) => {
+            e.preventDefault();
+            submit(values)
+        }}>Join the Team</Button>
       </Form>
     </StyledFormContainer>
   );

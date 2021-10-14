@@ -58,7 +58,7 @@ const FormComponent = ({ values, change, errors, submit, disabled }) => {
     change(name, valueToUse);
   };
 
-  const inputFileName = values.avatarImage.slice(8, values.avatarImage.length)
+  const inputFileName = values.avatarImage.slice(8, values.avatarImage.length);
 
   return (
     <StyledFormContainer>
@@ -91,7 +91,7 @@ const FormComponent = ({ values, change, errors, submit, disabled }) => {
           />
           <FormFeedback>{errors.last_name}</FormFeedback>
         </FormGroup>
-{/* 
+        {/* 
 I would have to upload this file to a database then get it again once I want to use it. Because it's a local file
         <FormGroup>
           <Label for="avatarImage">Profile Picture</Label>
@@ -150,6 +150,7 @@ I would have to upload this file to a database then get it again once I want to 
         </FormGroup>
 
         <Button
+          id="join-button"
           disabled={disabled}
           onClick={(e) => {
             e.preventDefault();

@@ -10,6 +10,7 @@ const initialFormValues = {
   last_name: "",
   email: "",
   password: "",
+  avatarImage: "",
   agreeToTOS: false,
 };
 
@@ -18,6 +19,7 @@ const initialFormErrors = {
   last_name: "",
   email: "",
   password: "",
+  avatarImage: [],
   agreeToTOS: "",
 };
 
@@ -51,7 +53,6 @@ function App() {
       .post(`https://reqres.in/api/users`, newMember)
       .then((res) => {
         setMembers([...members, { [res.data.id]: res.data }]);
-        console.log(members);
       })
       .catch((err) => console.log(err))
       .finally(setFormValues(initialFormValues));

@@ -1,4 +1,6 @@
 import React from "react";
+
+// Styling
 import "bootstrap/dist/css/bootstrap.css";
 import {
   Form,
@@ -30,7 +32,7 @@ const StyledFormContainer = styled.div`
     margin-top: 2%;
   }
 
-  .form-group{
+  .form-group {
     margin-bottom: 1%;
   }
 
@@ -45,11 +47,18 @@ const StyledFormContainer = styled.div`
 /* Invalid attr on the input and no attr on the FormFeedBack will display the non valid styling and text */
 
 const FormComponent = ({ values, change, errors, submit, disabled }) => {
-  const onChange = (e) => {
+  const onChange = async (e) => {
     const { name, value, checked, type } = e.target;
-    const valueToUse = type === "checkbox" ? checked : value;
+    e.persist();
+    let valueToUse = type === "checkbox" ? checked : value;
+
+    if (type === "file") {
+      valueToUse = "file:///" + value;
+    }
     change(name, valueToUse);
   };
+
+  const inputFileName = values.avatarImage.slice(8, values.avatarImage.length)
 
   return (
     <StyledFormContainer>
@@ -82,6 +91,22 @@ const FormComponent = ({ values, change, errors, submit, disabled }) => {
           />
           <FormFeedback>{errors.last_name}</FormFeedback>
         </FormGroup>
+{/* 
+I would have to upload this file to a database then get it again once I want to use it. Because it's a local file
+        <FormGroup>
+          <Label for="avatarImage">Profile Picture</Label>
+          <br></br>
+          <Input
+            onChange={onChange}
+            type="file"
+            name="avatarImage"
+            id="avatarImage"
+            accept="image/png, image/jpeg"
+            invalid={!!errors.avatarImage}
+            value={inputFileName}
+          />
+          <FormFeedback>{errors.avatarImage}</FormFeedback>
+        </FormGroup> */}
 
         <FormGroup>
           <Label for="email">Email</Label>
@@ -124,10 +149,15 @@ const FormComponent = ({ values, change, errors, submit, disabled }) => {
           <FormFeedback>{errors.agreeToTOS}</FormFeedback>
         </FormGroup>
 
-        <Button disabled={disabled} onClick={(e) => {
+        <Button
+          disabled={disabled}
+          onClick={(e) => {
             e.preventDefault();
-            submit(values)
-        }}>Join the Team</Button>
+            submit(values);
+          }}
+        >
+          Join the Team
+        </Button>
       </Form>
     </StyledFormContainer>
   );

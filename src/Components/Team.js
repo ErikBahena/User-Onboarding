@@ -43,6 +43,7 @@ export default function Team({ members }) {
           const memberData = Object.values(member)[0];
           return (
             <div key={memberData.id}>
+              {/* <img src={memberData.avatarImage} alt="profile illustration" /> */}
               <p>
                 {memberData.first_name} {memberData.last_name}
               </p>

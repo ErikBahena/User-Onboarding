@@ -1,5 +1,3 @@
-import React from "react";
-
 // Styling
 import "bootstrap/dist/css/bootstrap.css";
 import {
@@ -58,8 +56,6 @@ const FormComponent = ({ values, change, errors, submit, disabled }) => {
     change(name, valueToUse);
   };
 
-  const inputFileName = values.avatarImage.slice(8, values.avatarImage.length);
-
   return (
     <StyledFormContainer>
       <Form>
@@ -71,10 +67,16 @@ const FormComponent = ({ values, change, errors, submit, disabled }) => {
             id="first_name"
             name="first_name"
             value={values.first_name}
-            // if an input is valid then error.first_name will equal an empty string ""
-            // the boolean value of a empty string is false, a string containing characters true.
-            // im getting the boolean value of a string "" = false, "dsfasdf" = true;
+            // invalid=true if the error string is not empty, invalid=false if the error string is empty
             invalid={!!errors.first_name}
+            // if the error is an not an empty string then valid=false, if the error is an empty string then check if the value is empty or not, if the value is empty then valid = false, if the value is not empty then the valid=true
+            valid={
+              errors.first_name !== ""
+                ? false
+                : values.first_name
+                ? true
+                : false
+            }
           />
           <FormFeedback>{errors.first_name}</FormFeedback>
         </FormGroup>
@@ -88,6 +90,7 @@ const FormComponent = ({ values, change, errors, submit, disabled }) => {
             name="last_name"
             value={values.last_name}
             invalid={!!errors.last_name}
+            valid={errors.last_name ? false : values.last_name ? true : false}
           />
           <FormFeedback>{errors.last_name}</FormFeedback>
         </FormGroup>
@@ -117,6 +120,7 @@ I would have to upload this file to a database then get it again once I want to 
             name="email"
             value={values.email}
             invalid={!!errors.email}
+            valid={errors.email ? false : values.email ? true : false}
           />
           <FormFeedback>{errors.email}</FormFeedback>
         </FormGroup>
@@ -130,6 +134,7 @@ I would have to upload this file to a database then get it again once I want to 
             name="password"
             value={values.password}
             invalid={!!errors.password}
+            valid={errors.password ? false : values.password ? true : false}
           />
           <FormFeedback>{errors.password}</FormFeedback>
         </FormGroup>
@@ -143,6 +148,7 @@ I would have to upload this file to a database then get it again once I want to 
             id="agreeToTOS"
             checked={values.agreeToTOS}
             invalid={!!errors.agreeToTOS}
+            valid={errors.agreeToTOS ? false : values.agreeToTOS ? true : false}
             className="password-input"
           />
           I have read and agree to the terms and conditions
